@@ -8,6 +8,7 @@ import 'package:hackathon/services/export_imageService.dart';
 import 'package:hackathon/ui/models/added_room_model.dart';
 import 'package:hackathon/ui/styles.dart';
 import 'package:hackathon/ui/widgets/added_room_container.dart';
+import 'package:hackathon/ui/widgets/app_yellow_info_container.dart';
 import 'package:hackathon/ui/widgets/divided_container.dart';
 import 'package:hackathon/ui/widgets/primary_button.dart';
 
@@ -22,35 +23,71 @@ final List<AddedRoomModel> addedRooms;
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      key: repaintKey,
-      child: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Stack(
-                alignment: AlignmentGeometry.center,
-                children: [
-                  Stack(
-                    children: addedRooms.map((e) => getRoomBox(e)).toList(),
+    return Scaffold(
+       appBar: AppBar(
+      backgroundColor: appBackgroundColor,
+      centerTitle: true,
+      title: Text("Measurement Preview", style: textStyle.copyWith(fontWeight: FontWeight.w600),),),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Review your measurement points before analysis", style: textStyle.copyWith(color: Colors.grey),),
+              ),
+              RepaintBoundary(
+                key: repaintKey,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(8)
                   ),
-                   ...getWeakPoints(),
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Stack(
+                    alignment: AlignmentGeometry.center,
+                    children: [
+                      Stack(
+                        children: addedRooms.map((e) => getRoomBox(e)).toList(),
+                      ),
+                       ...getWeakPoints(),
+                    ],
+                  )
+                    ),
+              ),
+                  getWeakPointInfoBox(),
+            ],
+          ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: PrimaryButton(onTap: ()async{
+                        await ExportImageservice().captureWidget(repaintKey);
+                      }, label: "Generate AI Report"),
+                    ),
+                  ),
                 ],
               )
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: PrimaryButton(onTap: ()async{
-                    await ExportImageservice().captureWidget(repaintKey);
-                  }, label: "Generate AI Report"),
-                )
-          ],
-        )),
-    );
+        ],
+      ));
   }
+
+getWeakPointInfoBox(){
+  int weakPoints = 0;
+  addedRooms.forEach((room){
+    weakPoints += room.weakSignals.length;
+  });
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: AppYellowInfoContainer(label: "Total weak points are $weakPoints"),
+  );
+}
 
   List<Widget> getWeakPoints() {
     List<Widget> points = [];
