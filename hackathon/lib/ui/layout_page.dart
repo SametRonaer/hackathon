@@ -141,7 +141,7 @@ class _RoomCanvasState extends State<RoomCanvas> {
         Expanded(
           child: Container(height: 50, child: Column(
             children: [
-              Icon(Icons.snapchat_outlined),
+              Icon(Icons.linear_scale_outlined),
               Text("Linear"),
             ],
           ), decoration: BoxDecoration(
@@ -153,8 +153,8 @@ class _RoomCanvasState extends State<RoomCanvas> {
         Expanded(
           child: Container(height: 50, child: Column(
             children: [
-              Icon(Icons.snapchat_outlined),
-              Text("Linear"),
+              Icon(Icons.show_chart_sharp),
+              Text("L Shape"),
             ],
           ), decoration: BoxDecoration(
                                   color: appBackgroundColor,
@@ -165,8 +165,8 @@ class _RoomCanvasState extends State<RoomCanvas> {
         Expanded(
           child: Container(height: 50, child: Column(
             children: [
-              Icon(Icons.snapchat_outlined),
-              Text("Linear"),
+              Icon(Icons.grid_3x3),
+              Text("Custom"),
             ],
           ), decoration: BoxDecoration(
                                   color: appBackgroundColor,

@@ -16,7 +16,7 @@ class GetStartedScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(width: double.infinity),
-            CircleAvatar(radius: 55,),
+            CircleAvatar(radius: 55, child: Icon(Icons.cell_wifi, size: 50,),),
         
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 18.0),

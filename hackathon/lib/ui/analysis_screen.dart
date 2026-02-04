@@ -97,12 +97,12 @@ final wifiChecker = WifiChecker();
             child: AppYellowInfoContainer(label: "Walk around and tap areas with poor WiFi signal"),
           ),
           getButtons(context),
-          ValueListenableBuilder(
-            valueListenable: wifiChecker.wifiStatusNotifier,
-            builder: (context, value, child) {
-              return Text("$value");
-            }
-          )
+          // ValueListenableBuilder(
+          //   valueListenable: wifiChecker.wifiStatusNotifier,
+          //   builder: (context, value, child) {
+          //     return Text("$value");
+          //   }
+          // )
         ],
             ),
       ));
