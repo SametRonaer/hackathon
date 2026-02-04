@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon/ui/models/added_room_model.dart';
 import 'package:hackathon/ui/models/grid_model.dart';
+import 'package:hackathon/ui/styles.dart';
 import 'package:hackathon/wifi_manager.dart';
 
 class GridBox extends StatefulWidget {
@@ -29,7 +30,6 @@ bool isSginalStatusGood = true;
           onTap: () {
             if(widget.wifiChecker.wifiStatusNotifier.value != null){
             final grid = GridModel(x: widget.x, y: widget.y,wifiStatus: widget.wifiChecker.wifiStatusNotifier.value!);
-            print(grid);
             isSginalStatusGood = !isSginalStatusGood;
             setState(() {});
             if(isSginalStatusGood){
@@ -42,14 +42,16 @@ bool isSginalStatusGood = true;
           },
           child: Container(
             decoration: BoxDecoration(
-              color: isSginalStatusGood ? Colors.green : Colors.red,
+              border: Border.all(color:  isSginalStatusGood ? const Color.fromARGB(255, 187, 203, 185) : Colors.red),
+              color: isSginalStatusGood ? goodSignalGridBg : badSignalGridBg,
               borderRadius: BorderRadius.circular(4),
             ),
             child: Center(
-              child: Text(
-                '${widget.x}, ${widget.y}',
-                style: const TextStyle(fontSize: 10, color: Colors.white),
-              ),
+              child: Icon(isSginalStatusGood ? Icons.cell_tower : Icons.no_cell)
+              // child: Text(
+              //   '${widget.x}, ${widget.y}',
+              //   style: const TextStyle(fontSize: 10, color: Colors.white),
+              // ),
             ),
           ),
         );

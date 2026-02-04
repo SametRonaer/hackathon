@@ -12,10 +12,12 @@ class AddedRoomModel {
 List<GridModel> weakSignals = [];
 List<GridModel> allSignals = [];
   
-  static double scaleFactor = 20; 
+  static double scaleFactor = 22; 
 
   double get scaledWidth => width * scaleFactor;
   double get scaledHeight => height * scaleFactor;
+
+  Offset? updatedPosition;
 
   AddedRoomModel({
     required this.position,

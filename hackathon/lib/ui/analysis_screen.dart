@@ -6,9 +6,11 @@ import 'package:hackathon/ui/models/grid_model.dart';
 import 'package:hackathon/ui/models/wifi_status.dart';
 import 'package:hackathon/ui/rooms_values_screen.dart';
 import 'package:hackathon/ui/styles.dart';
+import 'package:hackathon/ui/widgets/app_yellow_info_container.dart';
 import 'package:hackathon/ui/widgets/base_scaffold.dart';
 import 'package:hackathon/ui/widgets/grid_box.dart';
 import 'package:hackathon/ui/widgets/primary_button.dart';
+import 'package:hackathon/ui/widgets/result_home_plan_screen.dart';
 import 'package:hackathon/wifi_manager.dart';
 
 class AnalysisScreen extends StatefulWidget {
@@ -54,8 +56,9 @@ final wifiChecker = WifiChecker();
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: AppBar(
+        backgroundColor: appBackgroundColor,
         centerTitle: true,
-        title: Text("Living Room Analysis", style: textStyle.copyWith(fontWeight: FontWeight.w600),),),
+        title: Text("${widget.currentRoom.roomName} Analysis", style: textStyle.copyWith(fontWeight: FontWeight.w600),),),
       child: SingleChildScrollView(
         child: Column(
         children: [
@@ -89,6 +92,10 @@ final wifiChecker = WifiChecker();
           ),
           ),
           DynamicGrid(addedRoomModel: widget.currentRoom, wifiChecker: wifiChecker,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:  16.0),
+            child: AppYellowInfoContainer(label: "Walk around and tap areas with poor WiFi signal"),
+          ),
           getButtons(context),
           ValueListenableBuilder(
             valueListenable: wifiChecker.wifiStatusNotifier,
@@ -125,8 +132,9 @@ getButtons(BuildContext context){
           child: PrimaryButton(onTap: (){
             wifiChecker.stopTimer();
             generateGridModels();
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => RoomsValuesScreen(rooms: widget.rooms)));
-          }, label: "Send to ai screen"),
+            //Navigator.of(context).push(MaterialPageRoute(builder: (_) => RoomsValuesScreen(rooms: widget.rooms)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => ResultHomePlanScreen(addedRooms: widget.rooms)));
+          }, label: "Next"),
         ),
       ],
     ),
@@ -196,7 +204,11 @@ final WifiChecker wifiChecker;
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(18),
+      padding: EdgeInsets.all(8),
+      margin: EdgeInsets.symmetric(horizontal:  18, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white, borderRadius: BorderRadius.circular(16)
+      ),
       child: Column(
         children: [
           Padding(
@@ -225,6 +237,34 @@ final WifiChecker wifiChecker;
               },
             ),
           ),
+          SizedBox(height: 12),
+           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 16,
+             children: [
+               Row(
+                 children: [
+                   Text("Strong Signal ", style: textStyle.copyWith(fontSize: 12, color: Colors.grey),),
+                   Container(height: 16, width: 16,decoration: BoxDecoration(
+                    color: goodSignalGridBg,
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: Colors.green)
+                   ),),
+                 ],
+               ),
+               Row(
+                 children: [
+                   Text("Weak Signal ", style: textStyle.copyWith(fontSize: 12, color: Colors.grey),),
+                   Container(height: 16, width: 16,decoration: BoxDecoration(
+                    color: badSignalGridBg,
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: Colors.red)
+                   ),),
+                 ],
+               ),
+             ],
+           ),
+           SizedBox(height: 12),
         ],
       ),
     );

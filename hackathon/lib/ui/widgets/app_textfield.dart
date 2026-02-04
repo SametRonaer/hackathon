@@ -14,6 +14,7 @@ final TextInputType? inputType;
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -38,7 +39,7 @@ final TextInputType? inputType;
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(
             color: Color(0xFFBDBDBD), // focus olunca biraz daha koyu gri
             width: 1.2,
