@@ -3,12 +3,14 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:hackathon/services/export_imageService.dart';
 
 import 'package:hackathon/ui/models/added_room_model.dart';
 import 'package:hackathon/ui/styles.dart';
 import 'package:hackathon/ui/widgets/added_room_container.dart';
 import 'package:hackathon/ui/widgets/divided_container.dart';
-import 'dart:ui' as ui;
+import 'package:hackathon/ui/widgets/primary_button.dart';
+
 
 
   final GlobalKey repaintKey = GlobalKey();
@@ -39,6 +41,12 @@ final List<AddedRoomModel> addedRooms;
                 ],
               )
                 ),
+                SizedBox(
+                  width: double.infinity,
+                  child: PrimaryButton(onTap: ()async{
+                    await ExportImageservice().captureWidget(repaintKey);
+                  }, label: "Generate AI Report"),
+                )
           ],
         )),
     );
@@ -117,21 +125,6 @@ final List<AddedRoomModel> addedRooms;
       ],
     );
   }
-  Future<Uint8List?> captureWidget() async {
-  try {
-    RenderRepaintBoundary boundary =
-        repaintKey.currentContext!.findRenderObject()
-            as RenderRepaintBoundary;
-
-    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-    ByteData? byteData =
-        await image.toByteData(format: ui.ImageByteFormat.png);
-
-    return byteData?.buffer.asUint8List();
-  } catch (e) {
-    debugPrint(e.toString());
-    return null;
-  }
-}
+ 
 
 }
